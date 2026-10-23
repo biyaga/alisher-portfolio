@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- Color tokens ---------- */
+:root {
+  --bg: #f6f5f1;
+  --surface: #efede6;
+  --fg: #14161a;
+  --muted: #5b616a;
+  --line: #dedad0;
+  --accent: #1f7a4a;
+  --dot: rgba(20, 22, 26, 0.08);
+  color-scheme: light;
+}
+
+.dark {
+  --bg: #0b0d10;
+  --surface: #12151a;
+  --fg: #e6e8eb;
+  --muted: #8b929b;
+  --line: #1f242b;
+  --accent: #7fd49b;
+  --dot: rgba(230, 232, 235, 0.07);
+  color-scheme: dark;
+}
+
+/* ---------- Base ---------- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Subtle engineering dot grid behind the hero */
+.dot-grid {
+  background-image: radial-gradient(var(--dot) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+/* ---------- Pixel scale animation ---------- */
+.pixel-scale g {
+  transform-box: view-box;
+}
+
+.scale-beam {
+  animation: beam-tilt 6s steps(1, end) infinite;
+}
+.scale-pan-left {
+  animation: pan-left 6s steps(1, end) infinite;
+}
+.scale-pan-right {
+  animation: pan-right 6s steps(1, end) infinite;
+}
+
+/* Three positions: level → left heavier → level → right heavier */
+@keyframes beam-tilt {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-4deg); }
+  50% { transform: rotate(0deg); }
+  75% { transform: rotate(4deg); }
+}
+@keyframes pan-left {
+  0%, 100% { transform: translateY(0); }
+  25% { transform: translateY(1px); }
+  50% { transform: translateY(0); }
+  75% { transform: translateY(-1px); }
+}
+@keyframes pan-right {
+  0%, 100% { transform: translateY(0); }
+  25% { transform: translateY(-1px); }
+  50% { transform: translateY(0); }
+  75% { transform: translateY(1px); }
+}
+
+/* Blinking terminal cursor */
+.cursor {
+  display: inline-block;
+  width: 0.6ch;
+  height: 1.1em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background: var(--accent);
+  animation: blink 1.1s steps(1, end) infinite;
+}
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .scale-beam,
+  .scale-pan-left,
+  .scale-pan-right,
+  .cursor {
+    animation: none;
+  }
+}
